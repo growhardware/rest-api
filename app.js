@@ -38,8 +38,42 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-//const nano = require('nano')('http://admin:admin@localhost:5984');
+// admin party mode
+/*
 const nano = require('nano')('http://localhost:5984');
-nano.db.create('alice');
+nano.db.create('grow');
+const grow= nano.use('grow');
+grow.insert({ happy: true}, 'rabbit').then((body) => {
+  // do something
+});
+*/
 
+
+
+// no admin party mode
+//const nano = require('nano')('http://admin:admin@localhost:5984');
+
+// cookie authentication
+/*
+function successCallback(result) {
+  console.log("successCallback: " + result);
+}
+
+function failureCallback(error) {
+  console.log("failureCallback: " + error);
+}
+
+const nano = require('nano')({url: 'http://localhost:5984', requestDefaults: {jar:true}}),
+  username = 'admin',
+  userpass = 'admin',
+ // db = nano.db.use('mydb');
+ db = nano.db.use('alice');
+
+nano.auth(username, userpass).then(successCallback, failureCallback);
+
+nano.session().then((doc) => {
+  console.log(doc)
+  // { userCtx: { roles: [ '_admin', '_reader', '_writer' ], name: 'rita' },  ok: true }
+})
+*/
 module.exports = app;
